@@ -43,7 +43,8 @@ public class Cake {
     public Cake() {
     }
 
-    public Cake(Long id, String name, Double price, String description, String image, Category category, String model3D, int quantity) {
+    public Cake(Long id, String name, Double price, String description, String image, Category category, String model3D,
+            int quantity) {
         this.id = id;
         this.name = name;
         this.price = price;

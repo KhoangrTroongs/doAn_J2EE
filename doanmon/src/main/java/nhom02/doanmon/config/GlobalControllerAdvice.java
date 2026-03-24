@@ -34,10 +34,12 @@ public class GlobalControllerAdvice {
 
     @ModelAttribute("unreadUpdateCount")
     public long populateUnreadUpdateCount(org.springframework.security.core.Authentication authentication) {
-        if (authentication != null && authentication.isAuthenticated() && !"anonymousUser".equals(authentication.getName())) {
+        if (authentication != null && authentication.isAuthenticated()
+                && !"anonymousUser".equals(authentication.getName())) {
             String username;
             if (authentication.getPrincipal() instanceof org.springframework.security.oauth2.core.user.OAuth2User) {
-                org.springframework.security.oauth2.core.user.OAuth2User oauth2User = (org.springframework.security.oauth2.core.user.OAuth2User) authentication.getPrincipal();
+                org.springframework.security.oauth2.core.user.OAuth2User oauth2User = (org.springframework.security.oauth2.core.user.OAuth2User) authentication
+                        .getPrincipal();
                 username = oauth2User.getAttribute("email");
             } else {
                 username = authentication.getName();
