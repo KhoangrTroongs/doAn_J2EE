@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # Container cho MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: mysql_cakestore
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: cakestore
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  # Container cho Spring Boot Web Application
+  web:
+    build: .
+    container_name: springboot_cakestore
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      # Ghi đè cấu hình connect database trong application.properties
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/cakestore?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      # Sử dụng nếu bạn cần file env cho các biến CLIENT_ID, CLIENT_SECRET (Nên tạo biến ở EC2 hoặc .env trên EC2)
+    env_file:
+      - .env
+
+volumes:
+  db_data:
