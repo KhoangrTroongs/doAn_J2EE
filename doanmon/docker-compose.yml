@@ -21,6 +21,20 @@ services:
       retries: 10
       start_period: 30s
 
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: cakestore-phpmyadmin
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8081:80" # Bạn sẽ truy cập qua port 8081
+    environment:
+      - PMA_HOST=mysql # Tên service của MySQL ở phía trên
+      - PMA_PORT=3306
+      - TZ=Asia/Ho_Chi_Minh
+
   app:
     build:
       context: .
