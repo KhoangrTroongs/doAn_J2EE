@@ -1,0 +1,3 @@
+demo-shop.honeysocial.click, demo-api.honeysocial.click {
+    reverse_proxy app:8080
+}

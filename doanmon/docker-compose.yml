@@ -60,16 +60,19 @@ services:
     expose:
       - "8080"
 
-  nginx:
-    image: nginx:1.27-alpine
-    container_name: cakestore-nginx
+  caddy:
+    image: caddy:latest
+    container_name: cakestore-caddy
     restart: unless-stopped
-    depends_on:
-      - app
     ports:
-      - "${APP_PORT:-80}:80"
+      - "80:80"
+      - "443:443"
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
 
 volumes:
   mysql_data:
+  caddy_data:
+  caddy_config:
